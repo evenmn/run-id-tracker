@@ -4,7 +4,7 @@ Track run-IDs in a convenient way
 ## Track your run-ids in `runs.csv`
 For each run that you want to track, add a new column in `runs.csv` and associate with the run type (`train`, `fine-tune` or `inference`) and the parent run, if present. The runs can also be categorized
 
-![Run-ids](img/runs_spreadsheet.png)
+<!-- ![Run-ids](img/runs_spreadsheet.png) -->
 
 <!-- RUN_TABLE_START -->
 | Run ID | Type | Category | Notes |
@@ -86,57 +86,3 @@ flowchart TD
     classDef category_avg_dt stroke-dasharray:5 5;
 ```
 <!-- RUN_LINEAGE_END -->
-
-```mermaid
-flowchart TD
-
-    run_atmofs03["atmofs03<br/>train"]
-    run_mlsgiv27["mlsgiv27<br/>inference<br/>1y-rollout"]
-    run_cxp4s2ou["cxp4s2ou<br/>inference<br/>1y-rollout"]
-    run_yr35z1wk["yr35z1wk<br/>inference<br/>1y-rollout"]
-    run_xuwd4y83["xuwd4y83<br/>train<br/>avg-dt"]
-    run_vm3b5wyi["vm3b5wyi<br/>train<br/>avg-dt"]
-    run_tdc93mxn["tdc93mxn<br/>train<br/>avg-dt"]
-    run_qafvziy9["qafvziy9<br/>fine-tune<br/>avg-dt"]
-    run_hblhjk7s["hblhjk7s<br/>inference<br/>avg-dt"]
-    run_lhqu759o["lhqu759o<br/>inference<br/>avg-dt"]
-    run_x38glzpu["x38glzpu<br/>evaluate<br/>avg-dt"]
-
-    run_atmofs03 --> run_mlsgiv27
-    run_atmofs03 --> run_cxp4s2ou
-    run_atmofs03 --> run_yr35z1wk
-    run_tdc93mxn --> run_qafvziy9
-    run_vm3b5wyi --> run_hblhjk7s
-    run_tdc93mxn --> run_lhqu759o
-    run_atmofs03 --> run_x38glzpu
-    run_tdc93mxn --> run_x38glzpu
-    run_hblhjk7s --> run_x38glzpu
-
-    class run_atmofs03 type_train;
-    class run_mlsgiv27 type_inference;
-    class run_mlsgiv27 category_1y_rollout;
-    class run_cxp4s2ou type_inference;
-    class run_cxp4s2ou category_1y_rollout;
-    class run_yr35z1wk type_inference;
-    class run_yr35z1wk category_1y_rollout;
-    class run_xuwd4y83 type_train;
-    class run_xuwd4y83 category_avg_dt;
-    class run_vm3b5wyi type_train;
-    class run_vm3b5wyi category_avg_dt;
-    class run_tdc93mxn type_train;
-    class run_tdc93mxn category_avg_dt;
-    class run_qafvziy9 type_fine_tune;
-    class run_qafvziy9 category_avg_dt;
-    class run_hblhjk7s type_inference;
-    class run_hblhjk7s category_avg_dt;
-    class run_lhqu759o type_inference;
-    class run_lhqu759o category_avg_dt;
-    class run_x38glzpu type_evaluate;
-    class run_x38glzpu category_avg_dt;
-
-    classDef type_fine_tune fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
-    classDef type_inference fill:#fff8e1,stroke:#f9a825,stroke-width:2px;
-    classDef type_train fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    classDef category_1y_rollout stroke-width:4px;
-    classDef category_avg_dt stroke-dasharray:5 5;
-```
