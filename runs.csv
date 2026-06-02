@@ -9,3 +9,4 @@ tdc93mxn,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h pretrai
 qafvziy9,fine-tune,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h fine-tuning, 16 epochs",yes
 hblhjk7s,inference,vm3b5wyi,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"18h inference, ",yes
 lhqu759o,inference,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,24h inference,yes
+x38glzpu,evaluate,"atmofs03,tdc93mxn,hblhjk7s",Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,18h evaluation,yes

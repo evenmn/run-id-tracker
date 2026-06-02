@@ -1,0 +1,45 @@
+name: Update run README
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "runs.csv"
+      - "scripts/generate_run_readme.py"
+      - ".github/workflows/update-run-readme.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Generate README
+        run: python scripts/generate_run_readme.py
+
+      - name: Commit generated files
+        run: |
+          if git diff --quiet README.md run_lineage.mmd; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md run_lineage.mmd
+          git commit -m "Update run lineage README"
+          git push

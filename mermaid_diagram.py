@@ -3,6 +3,7 @@ import re
 
 INPUT_FILE = "runs.csv"
 OUTPUT_FILE = "run_lineage.mmd"
+MARKDOWN_OUTPUT_FILE = "run_lineage.md"
 
 TYPE_STYLES = {
     "train": "fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px",
@@ -14,9 +15,11 @@ TYPE_STYLES = {
 
 CATEGORY_STYLES = {
     "production-candidate": "stroke-width:4px",
-    "debug": "stroke-dasharray: 5 5",
+    "debug": "stroke-dasharray:5 5",
     "failed-but-useful": "stroke:#c62828,stroke-width:3px",
     "archive": "fill:#eeeeee,stroke:#9e9e9e,color:#777777",
+    "avg-dt": "stroke-dasharray:5 5",
+    "1y-rollout": "stroke-width:4px",
 }
 
 def clean(value):
@@ -25,16 +28,40 @@ def clean(value):
     return str(value).strip()
 
 def mermaid_id(run_id: str) -> str:
-    return "run_" + re.sub(r"[^a-zA-Z0-9_]", "_", run_id)
+    return "run_" + re.sub(r"[^a-zA-Z0-9_]", "_", clean(run_id))
 
 def class_name(prefix: str, value: str) -> str:
-    safe = re.sub(r"[^a-zA-Z0-9_]", "_", value.lower())
+    safe = re.sub(r"[^a-zA-Z0-9_]", "_", clean(value).lower())
     return f"{prefix}_{safe}"
+
+def escape_label(value: str) -> str:
+    return clean(value).replace('"', "'")
+
+def parse_parent_ids(value):
+    value = clean(value)
+    if not value:
+        return []
+
+    # Supports semicolon, comma, or newline separated parents
+    value = value.replace(";", ",").replace("\n", ",")
+
+    return [
+        parent.strip()
+        for parent in value.split(",")
+        if parent.strip()
+    ]
 
 df = pd.read_csv(INPUT_FILE)
 
+# Optional filter
 if "Include in diagram" in df.columns:
-    df = df[df["Include in diagram"].fillna("").astype(str).str.lower().isin(["yes", "y", "true", "1"])]
+    df = df[
+        df["Include in diagram"]
+        .fillna("")
+        .astype(str)
+        .str.lower()
+        .isin(["yes", "y", "true", "1"])
+    ]
 
 known_run_ids = set(df["Run ID"].map(clean))
 
@@ -42,7 +69,6 @@ lines = ["flowchart TD", ""]
 
 used_type_classes = set()
 used_category_classes = set()
-
 class_assignments = []
 
 # Nodes
@@ -53,18 +79,17 @@ for _, row in df.iterrows():
 
     node_id = mermaid_id(run_id)
 
-    label_parts = [run_id]
+    label_parts = [escape_label(run_id)]
     if run_type:
-        label_parts.append(run_type)
+        label_parts.append(escape_label(run_type))
     if category:
-        label_parts.append(category)
+        label_parts.append(escape_label(category))
 
-    label = "<br/>".join(label_parts).replace('"', "'")
+    label = "<br/>".join(label_parts)
 
-    # Write node WITHOUT inline classes
+    # Important: no inline ::: classes here
     lines.append(f'    {node_id}["{label}"]')
 
-    # Add class assignments separately
     if run_type:
         type_cls = class_name("type", run_type)
         class_assignments.append(f"    class {node_id} {type_cls};")
@@ -75,19 +100,26 @@ for _, row in df.iterrows():
         class_assignments.append(f"    class {node_id} {category_cls};")
         used_category_classes.add((category_cls, category))
 
-    lines.append(f'    {node_id}["{label}"]')
-
-    #for cls in classes:
-    #    class_assignments.append(f"    class {node_id} {cls};")
-
 # Edges
 lines.append("")
 
+parent_col = "Parent Run IDs" if "Parent Run IDs" in df.columns else "Parent Run ID"
+
 for _, row in df.iterrows():
     run_id = clean(row["Run ID"])
-    parent_id = clean(row.get("Parent Run ID", ""))
+    run_type = clean(row.get("Type", ""))
+    parent_ids = parse_parent_ids(row.get(parent_col, ""))
 
-    if parent_id:
+    if len(parent_ids) > 1 and run_type != "evaluation":
+        print(
+            f"Warning: {run_id} has multiple parents, "
+            f"but type is {run_type!r}, not 'evaluation'"
+        )
+
+    for parent_id in parent_ids:
+        if parent_id not in known_run_ids:
+            print(f"Warning: parent run ID not found in table: {parent_id}")
+
         lines.append(f"    {mermaid_id(parent_id)} --> {mermaid_id(run_id)}")
 
 # Class assignments
@@ -109,14 +141,16 @@ for cls, category in sorted(used_category_classes):
     if style:
         lines.append(f"    classDef {cls} {style};")
 
-with open(OUTPUT_FILE, "w") as f:
+# Write raw Mermaid file
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     f.write("\n".join(lines))
 
 print(f"Wrote {OUTPUT_FILE}")
 
-lines2 = ["```mermaid"] + lines + ["```"]
+# Write Markdown wrapper
+markdown_lines = ["```mermaid"] + lines + ["```"]
 
-with open("run_lineage.md", "w") as f:
-    f.write("\n".join(lines2))
+with open(MARKDOWN_OUTPUT_FILE, "w", encoding="utf-8") as f:
+    f.write("\n".join(markdown_lines))
 
-print(f"Wrote run_lineage.md")
+print(f"Wrote {MARKDOWN_OUTPUT_FILE}")
