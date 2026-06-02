@@ -4,7 +4,7 @@ Track run-IDs in a convenient way
 ## Track your run-ids in `runs.csv`
 For each run that you want to track, add a new column in `runs.csv` and associate with the run type (`train`, `fine-tune` or `inference`) and the parent run, if present. The runs can also be categorized
 
-<!-- ![Run-ids](img/runs_spreadsheet.png) -->
+![Run-ids](img/runs_spreadsheet.png)
 
 <!-- RUN_TABLE_START -->
 <!-- RUN_TABLE_END -->
@@ -21,7 +21,6 @@ It generates a markdown file, `run_lineage.md` that can be opened in any markdow
 <!-- RUN_LINEAGE_START -->
 <!-- RUN_LINEAGE_END -->
 
-<!--
 ```mermaid
 flowchart TD
 
@@ -75,4 +74,3 @@ flowchart TD
     classDef category_1y_rollout stroke-width:4px;
     classDef category_avg_dt stroke-dasharray:5 5;
 ```
--->
