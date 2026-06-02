@@ -1,0 +1,11 @@
+Run ID,Type,Parent Run ID,HPC,Category,Branch,Notes,Include in diagram
+atmofs03,train,,Leonardo,,,,yes
+mlsgiv27,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
+cxp4s2ou,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
+yr35z1wk,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
+xuwd4y83,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"12h pretraining, 64 epochs",yes
+vm3b5wyi,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"18h pretraining, 64 epochs",yes
+tdc93mxn,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h pretraining, 64 epochs",yes
+qafvziy9,fine-tune,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h fine-tuning, 16 epochs",yes
+hblhjk7s,inference,vm3b5wyi,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"18h inference, ",yes
+lhqu759o,inference,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,24h inference,yes
