@@ -7,6 +7,19 @@ For each run that you want to track, add a new column in `runs.csv` and associat
 ![Run-ids](img/runs_spreadsheet.png)
 
 <!-- RUN_TABLE_START -->
+| Run ID | Type | Category | Notes |
+| --- | --- | --- | --- |
+| atmofs03 | train |  |  |
+| mlsgiv27 | inference | 1y-rollout | Starting in December 2023 |
+| cxp4s2ou | inference | 1y-rollout | Starting in December 2023 |
+| yr35z1wk | inference | 1y-rollout | Starting in December 2023 |
+| xuwd4y83 | train | avg-dt | 12h pretraining, 64 epochs |
+| vm3b5wyi | train | avg-dt | 18h pretraining, 64 epochs |
+| tdc93mxn | train | avg-dt | 24h pretraining, 64 epochs |
+| qafvziy9 | fine-tune | avg-dt | 24h fine-tuning, 16 epochs |
+| hblhjk7s | inference | avg-dt | 18h inference, |
+| lhqu759o | inference | avg-dt | 24h inference |
+| x38glzpu | evaluate | avg-dt | 18h evaluation |
 <!-- RUN_TABLE_END -->
 
 ## Render mermaid diagram
@@ -19,6 +32,59 @@ python mermaid_diagram.py
 It generates a markdown file, `run_lineage.md` that can be opened in any markdown reader that supports mermaid:
 
 <!-- RUN_LINEAGE_START -->
+```mermaid
+flowchart TD
+
+    run_atmofs03["atmofs03<br/>train"]
+    run_mlsgiv27["mlsgiv27<br/>inference<br/>1y-rollout"]
+    run_cxp4s2ou["cxp4s2ou<br/>inference<br/>1y-rollout"]
+    run_yr35z1wk["yr35z1wk<br/>inference<br/>1y-rollout"]
+    run_xuwd4y83["xuwd4y83<br/>train<br/>avg-dt"]
+    run_vm3b5wyi["vm3b5wyi<br/>train<br/>avg-dt"]
+    run_tdc93mxn["tdc93mxn<br/>train<br/>avg-dt"]
+    run_qafvziy9["qafvziy9<br/>fine-tune<br/>avg-dt"]
+    run_hblhjk7s["hblhjk7s<br/>inference<br/>avg-dt"]
+    run_lhqu759o["lhqu759o<br/>inference<br/>avg-dt"]
+    run_x38glzpu["x38glzpu<br/>evaluate<br/>avg-dt"]
+
+    run_atmofs03 --> run_mlsgiv27
+    run_atmofs03 --> run_cxp4s2ou
+    run_atmofs03 --> run_yr35z1wk
+    run_tdc93mxn --> run_qafvziy9
+    run_vm3b5wyi --> run_hblhjk7s
+    run_tdc93mxn --> run_lhqu759o
+    run_atmofs03 --> run_x38glzpu
+    run_tdc93mxn --> run_x38glzpu
+    run_hblhjk7s --> run_x38glzpu
+
+    class run_atmofs03 type_train;
+    class run_mlsgiv27 type_inference;
+    class run_mlsgiv27 category_1y_rollout;
+    class run_cxp4s2ou type_inference;
+    class run_cxp4s2ou category_1y_rollout;
+    class run_yr35z1wk type_inference;
+    class run_yr35z1wk category_1y_rollout;
+    class run_xuwd4y83 type_train;
+    class run_xuwd4y83 category_avg_dt;
+    class run_vm3b5wyi type_train;
+    class run_vm3b5wyi category_avg_dt;
+    class run_tdc93mxn type_train;
+    class run_tdc93mxn category_avg_dt;
+    class run_qafvziy9 type_fine_tune;
+    class run_qafvziy9 category_avg_dt;
+    class run_hblhjk7s type_inference;
+    class run_hblhjk7s category_avg_dt;
+    class run_lhqu759o type_inference;
+    class run_lhqu759o category_avg_dt;
+    class run_x38glzpu type_evaluate;
+    class run_x38glzpu category_avg_dt;
+
+    classDef type_fine_tune fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
+    classDef type_inference fill:#fff8e1,stroke:#f9a825,stroke-width:2px;
+    classDef type_train fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef category_1y_rollout stroke-width:4px;
+    classDef category_avg_dt stroke-dasharray:5 5;
+```
 <!-- RUN_LINEAGE_END -->
 
 ```mermaid
