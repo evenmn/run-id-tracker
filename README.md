@@ -29,7 +29,14 @@ A mermaid diagram shows how the different runs are connected, and is generated b
 python mermaid_diagram.py
 ```
 
-It generates a markdown file, `run_lineage.md` that can be opened in any markdown reader that supports mermaid:
+It generates a markdown file, `run_lineage.md` that can be opened in any markdown reader that supports mermaid. Here colors indicate the run type:
+
+- Green: training
+- Orange: inference
+- Blue: Fine-tuning
+- Purple: evaluate
+
+Additionally, the edge indicate the category
 
 <!-- RUN_LINEAGE_START -->
 ```mermaid
