@@ -1,12 +1,14 @@
-Run ID,Type,Parent Run ID,HPC,Category,Branch,Notes,Include in diagram
-atmofs03,train,,Leonardo,,,,yes
-mlsgiv27,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
-cxp4s2ou,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
-yr35z1wk,inference,atmofs03,Leonardo,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes
-xuwd4y83,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"12h pretraining, 64 epochs",yes
-vm3b5wyi,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"18h pretraining, 64 epochs",yes
-tdc93mxn,train,,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h pretraining, 64 epochs",yes
-qafvziy9,fine-tune,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"24h fine-tuning, 16 epochs",yes
-hblhjk7s,inference,vm3b5wyi,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,"18h inference, ",yes
-lhqu759o,inference,tdc93mxn,Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,24h inference,yes
-x38glzpu,evaluate,"atmofs03,tdc93mxn,hblhjk7s",Leonardo,avg-dt,cristianl/PR1699_anemoi_config_join,18h evaluation,yes
+Run ID,Type,Parent Run ID,HPC,Status,Category,Branch,Notes,Include in diagram
+atmofs03,train,,Leonardo,Finish,pre-train,,,yes
+rqcsy7ze,inference,atmofs03,Leonardo,Queue,1y-rollout,evenmn/fix/incremental-rollout2,Starting in December 2023,yes,
+xuwd4y83,train,,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"12h pretraining, 64 epochs",yes
+vm3b5wyi,train,,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"18h pretraining, 64 epochs",yes
+tdc93mxn,train,,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"24h pretraining, 64 epochs",yes
+e3xvz4yi,fine-tune,xuwd4y83,Leonardo,Queue,avg-dt,cristianl/PR1699_anemoi_config_join,"12h fine-tuning, 16 epochs, r5",yes,
+yxvpt9ng,fine-tune,vm3b5wyi,Leonardo,Queue,avg-dt,cristianl/PR1699_anemoi_config_join,"18h fine-tuning, 16 epochs, r5",yes,
+svuxthgo,fine-tune,tdc93mxn,Leonardo,Queue,avg-dt,cristianl/PR1699_anemoi_config_join,"24h fine-tuning, 16 epochs, r5",yes,
+eb5fdypv,inference,xuwd4y83,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"12h inference, 40 steps",yes,
+omcx7jw8,inference,vm3b5wyi,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"18h inference, 40 steps",no
+hblhjk7s,inference,vm3b5wyi,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"18h inference, 40 steps",yes
+lhqu759o,inference,tdc93mxn,Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,"24h inference, 40 steps",yes
+x38glzpu,evaluate,"atmofs03,tdc93mxn,hblhjk7s",Leonardo,Finish,avg-dt,cristianl/PR1699_anemoi_config_join,18h evaluation,yes
